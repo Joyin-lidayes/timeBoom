@@ -246,6 +246,25 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
         }
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            background: linear-gradient(45deg, #4FC3F7, #29B6F6);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
+        }
         .modal {
             display: none;
             position: fixed;
@@ -328,6 +347,7 @@
     </style>
 </head>
 <body>
+    <button class="back-btn">⬅️ 返回</button>
     <button class="settings-btn" id="settingsBtn">⚙️ 设置</button>
     <div class="container">
         <div class="main active">
@@ -383,8 +403,8 @@
 
         let countdown;
         let interval;
-        const countdownAudio = new Audio('assets/audio/countdown.mp3');
-        const boomAudio = new Audio('assets/audio/boom.mp3');
+        const countdownAudio = new Audio('../audio/countdown.mp3');
+        const boomAudio = new Audio('../audio/boom.mp3');
 
         // 设置按钮事件
         document.getElementById('settingsBtn').onclick = openSettings;
@@ -476,5 +496,6 @@
             }, 1000);
         });
     </script>
+    <script src="../js/control.js"></script>
 </body>
 </html>

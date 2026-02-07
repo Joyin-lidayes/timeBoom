@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>安静小树网页</title>
+    <title>安静小树</title>
     <style>
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
             background: linear-gradient(135deg, #E0F6FF 0%, #B3E5FC 100%);
             color: #333;
             margin: 0;
-            padding: 20px;
             min-height: 100vh;
             position: relative;
         }
@@ -39,6 +38,25 @@
             font-family: 'Comic Sans MS', cursive;
         }
         .settings-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
+        }
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            background: linear-gradient(45deg, #4FC3F7, #29B6F6);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .back-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
         }
@@ -200,6 +218,7 @@
     </style>
 </head>
 <body>
+    <button class="back-btn">⬅️ 返回</button>
     <button class="settings-btn" id="settingsBtn">⚙️ 设置</button>
     <div class="container">
         <h1>嘘！让小树安静生长！ 🌳</h1>
@@ -401,5 +420,6 @@
         // 初始化
         initTrees();
     </script>
+    <script src="../js/control.js"></script>
 </body>
 </html>

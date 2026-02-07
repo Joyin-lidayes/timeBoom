@@ -1,0 +1,24 @@
+{
+    "version": "1.0.0",
+    "author": "joyinSoftware",
+    "teacher": "江老师",
+    "logo": "assets/image/logo.jpg",
+    "index": "../../index.html",
+    "games": [
+        {
+            "name": "安静小树",
+            "file": "quiettree.html",
+            "icon": "🌲"
+        },
+        {
+            "name": "点名游戏",
+            "file": "rollcall.html",
+            "icon": "🎯"
+        },
+        {
+            "name": "时间炸弹",
+            "file": "timeboom.html",
+            "icon": "💣"
+        }
+    ]
+}
