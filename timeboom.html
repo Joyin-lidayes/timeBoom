@@ -14,6 +14,7 @@
             margin: 0;
             background: linear-gradient(135deg, #E0F6FF 0%, #B3E5FC 100%);
             color: #333;
+            position: relative;
         }
         .container {
             background: rgba(255, 255, 255, 0.9);
@@ -226,15 +227,109 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             z-index: 10;
         }
+        .settings-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background: linear-gradient(45deg, #4FC3F7, #29B6F6);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .settings-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+        .modal h2 {
+            text-align: center;
+            color: #1976D2;
+            margin-bottom: 20px;
+        }
+        .modal label {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #388E3C;
+        }
+        .modal input {
+            width: 100px;
+            padding: 10px;
+            border: 2px solid #4FC3F7;
+            border-radius: 10px;
+            font-size: 16px;
+            text-align: center;
+            background: #E3F2FD;
+            color: #333;
+            margin-left: 10px;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .modal button {
+            padding: 10px 20px;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .save-btn {
+            background: linear-gradient(45deg, #4CAF50, #388E3C);
+            color: white;
+        }
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        .cancel-btn {
+            background: linear-gradient(45deg, #F44336, #D32F2F);
+            color: white;
+        }
+        .cancel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+        }
     </style>
 </head>
 <body>
+    <button class="settings-btn" id="settingsBtn">⚙️ 设置</button>
     <div class="container">
-        <div class="settings active">
-            <h2>设置倒计时范围</h2>
-            <label>最小时间 (秒): <input type="number" id="minTime" value="30"></label>
-            <label>最大时间 (秒): <input type="number" id="maxTime" value="60"></label>
-        </div>
         <div class="main active">
             <h2 id="prompt">点击炸弹开始倒计时</h2>
             <div class="bomb" id="bomb">
@@ -263,6 +358,17 @@
             </div>
         </div>
     </div>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>设置倒计时范围</h2>
+            <label>最小时间 (秒): <input type="number" id="minTime" value="30"></label>
+            <label>最大时间 (秒): <input type="number" id="maxTime" value="60"></label>
+            <button class="save-btn" onclick="saveSettings()">保存</button>
+            <button class="cancel-btn" onclick="closeSettings()">取消</button>
+        </div>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const minTimeInput = document.getElementById('minTime');
@@ -280,6 +386,39 @@
         const countdownAudio = new Audio('assets/audio/countdown.mp3');
         const boomAudio = new Audio('assets/audio/boom.mp3');
 
+        // 设置按钮事件
+        document.getElementById('settingsBtn').onclick = openSettings;
+
+        // 模态框关闭事件
+        document.getElementsByClassName('close')[0].onclick = closeSettings;
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('settingsModal')) {
+                closeSettings();
+            }
+        }
+
+        function openSettings() {
+            document.getElementById('settingsModal').style.display = 'block';
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
+
+        function saveSettings() {
+            const minTime = parseInt(document.getElementById('minTime').value);
+            const maxTime = parseInt(document.getElementById('maxTime').value);
+            if (minTime >= maxTime || minTime < 1 || maxTime < 1) {
+                alert('请输入有效的范围');
+                return;
+            }
+            localStorage.setItem('bombMinTime', minTime);
+            localStorage.setItem('bombMaxTime', maxTime);
+            closeSettings();
+        }
+
         document.getElementById('bomb').addEventListener('click', function() {
             const bomb = document.getElementById('bomb');
             const explosion = document.getElementById('explosion');
@@ -290,7 +429,6 @@
                 interval = null;
                 bomb.classList.remove('clicked', 'surprised', 'happy');
                 prompt.style.display = 'block';
-                document.querySelector('.settings').style.display = 'block';
                 countdownAudio.pause();
                 countdownAudio.currentTime = 0;
                 return;
@@ -313,7 +451,6 @@
                 bomb.classList.add(randomExpression);
             }
             prompt.style.display = 'none';
-            document.querySelector('.settings').style.display = 'none';
             countdownAudio.currentTime = 0;
             countdownAudio.loop = true;
             countdownAudio.play();
@@ -332,7 +469,6 @@
                         explosion.style.display = 'none';
                         bomb.style.display = 'block';
                         prompt.style.display = 'block';
-                        document.querySelector('.settings').style.display = 'block';
                         // 滚动到页面底部
                         window.scrollTo(0, document.body.scrollHeight);
                     }, 2000);

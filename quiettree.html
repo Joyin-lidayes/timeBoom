@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安静小树网页</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #E0F6FF 0%, #B3E5FC 100%);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border: 5px solid #4FC3F7;
+        }
+        .settings-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background: linear-gradient(45deg, #4FC3F7, #29B6F6);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .settings-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+        .modal h2 {
+            text-align: center;
+            color: #1976D2;
+            margin-bottom: 20px;
+        }
+        .modal textarea {
+            width: 80%;
+            padding: 10px;
+            border: 2px solid #4FC3F7;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Comic Sans MS', cursive;
+            resize: vertical;
+        }
+        .modal input {
+            width: 80%;
+            padding: 10px;
+            border: 2px solid #4FC3F7;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Comic Sans MS', cursive;
+            margin-top: 10px;
+        }
+        .modal button {
+            padding: 10px 20px;
+            margin: 10px auto;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .save-btn {
+            background: linear-gradient(45deg, #4CAF50, #388E3C);
+            color: white;
+        }
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        .cancel-btn {
+            background: linear-gradient(45deg, #F44336, #D32F2F);
+            color: white;
+        }
+        .cancel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+        }
+        h1 {
+            text-align: center;
+            color: #1976D2;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .start-btn {
+            background: linear-gradient(45deg, #1976D2, #1565C0);
+            color: white;
+            display: block;
+            margin: 20px auto;
+            width: 280px;
+            padding: 18px 30px;
+            font-size: 22px;
+            border-radius: 25px;
+            box-shadow: 0 8px 20px rgba(25, 118, 210, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(25, 118, 210, 0.6);
+        }
+        .decibel-display {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            border: 3px solid #4FC3F7;
+            transition: background 0.5s;
+        }
+        .decibel-display.high-decibel {
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border-color: #D32F2F;
+        }
+        .grass-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .grass-patch {
+            background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            min-height: 120px;
+        }
+        .student-name {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .tree-emoji {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 30px;
+            cursor: pointer;
+            transition: transform 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <button class="settings-btn" id="settingsBtn">⚙️ 设置</button>
+    <div class="container">
+        <h1>嘘！让小树安静生长！ 🌳</h1>
+
+        <button class="start-btn" id="startBtn">开始检测</button>
+
+        <div class="decibel-display" id="decibelDisplay">当前分贝：-- dB</div>
+
+        <div class="grass-grid" id="grassGrid"></div>
+    </div>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>设置</h2>
+            <label>人员名单：</label><br>
+            <textarea id="namesTextarea" rows="10" placeholder="每行输入一个名字"></textarea><br>
+            <label>最低生长分贝值：</label><br>
+            <input type="number" id="minDecibelInput" placeholder="例如：30"><br>
+            <label>生长速度：</label><br>
+            <input type="range" id="growthSpeedInput" min="0.00001" max="0.001" step="0.00001" value="0.02">
+            <span id="speedValue">0.02</span>
+            <button class="save-btn" onclick="saveSettings()">保存</button>
+            <button class="cancel-btn" onclick="closeSettings()">取消</button>
+        </div>
+    </div>
+
+    <script>
+        let names = JSON.parse(localStorage.getItem('names')) || [];
+        let minDecibel = parseInt(localStorage.getItem('minDecibel')) || 30;
+        let growthSpeed = parseFloat(localStorage.getItem('growthSpeed')) || 0.02;
+        let trees = [];
+        let audioContext;
+        let analyser;
+        let microphone;
+        let isDetecting = false;
+        let animationFrame;
+
+        function initTrees() {
+            const grid = document.getElementById('grassGrid');
+            grid.innerHTML = '';
+            trees = [];
+            names.forEach(name => {
+                const patch = document.createElement('div');
+                patch.className = 'grass-patch';
+                patch.innerHTML = `
+                    <div class="student-name">${name}</div>
+                    <div class="tree-emoji" onclick="witherTree('${name}')">🌱</div>
+                `;
+                grid.appendChild(patch);
+                trees.push({ name, scale: 0, element: patch.querySelector('.tree-emoji'), isWithered: false });
+            });
+        }
+
+        function startDetection() {
+            if (names.length === 0) {
+                alert('请先在设置中添加小朋友的名字！');
+                return;
+            }
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    analyser = audioContext.createAnalyser();
+                    microphone = audioContext.createMediaStreamSource(stream);
+                    microphone.connect(analyser);
+                    analyser.fftSize = 256;
+                    const bufferLength = analyser.frequencyBinCount;
+                    const dataArray = new Uint8Array(bufferLength);
+                    isDetecting = true;
+                    document.getElementById('startBtn').textContent = '停止检测';
+                    updateDecibel(dataArray);
+                })
+                .catch(err => {
+                    alert('无法访问麦克风：' + err.message);
+                });
+        }
+
+        function stopDetection() {
+            if (audioContext) {
+                audioContext.close();
+            }
+            if (microphone) {
+                microphone.disconnect();
+            }
+            isDetecting = false;
+            document.getElementById('startBtn').textContent = '开始检测';
+            const display = document.getElementById('decibelDisplay');
+            display.textContent = '当前分贝：-- dB';
+            display.classList.remove('high-decibel');
+            cancelAnimationFrame(animationFrame);
+        }
+
+        function updateDecibel(dataArray) {
+            if (!isDetecting) return;
+            analyser.getByteFrequencyData(dataArray);
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) {
+                sum += dataArray[i] * dataArray[i];
+            }
+            const rms = Math.sqrt(sum / dataArray.length);
+            const decibel = Math.round(20 * Math.log10(rms / 128) + 50); // 估算分贝
+            document.getElementById('decibelDisplay').textContent = `当前分贝：${decibel} dB`;
+            const display = document.getElementById('decibelDisplay');
+            if (decibel > minDecibel) {
+                display.classList.add('high-decibel');
+            } else {
+                display.classList.remove('high-decibel');
+            }
+            updateTrees(decibel);
+            animationFrame = requestAnimationFrame(() => updateDecibel(dataArray));
+        }
+
+        function updateTrees(decibel) {
+            trees.forEach(tree => {
+                if (!tree.isWithered) {
+                    if (decibel < minDecibel) {
+                        tree.scale = Math.min(tree.scale + growthSpeed, 1);
+                    } else {
+                        tree.scale = Math.max(tree.scale - growthSpeed, 0);
+                    }
+                }
+                const scaleValue = 1 + tree.scale * 2; // 从1到3
+                tree.element.style.transform = `scale(${scaleValue})`;
+                if (tree.scale > 0) {
+                    tree.element.textContent = '🌳';
+                } else {
+                    tree.element.textContent = '🌱';
+                }
+            });
+        }
+
+        function witherTree(name) {
+            const tree = trees.find(t => t.name === name);
+            if (tree) {
+                tree.isWithered = true;
+                tree.scale = 0;
+                tree.element.style.transform = 'scale(0.5)';
+                tree.element.textContent = '🥀';
+                // 10秒后重置为🌱
+                setTimeout(() => {
+                    tree.isWithered = false;
+                    tree.element.style.transform = 'scale(1)';
+                    tree.element.textContent = '🌱';
+                }, 10000);
+            }
+        }
+
+        document.getElementById('startBtn').onclick = function() {
+            if (isDetecting) {
+                stopDetection();
+            } else {
+                startDetection();
+            }
+        };
+
+        // 设置按钮事件
+        document.getElementById('settingsBtn').onclick = openSettings;
+
+        // 模态框关闭事件
+        document.getElementsByClassName('close')[0].onclick = closeSettings;
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('settingsModal')) {
+                closeSettings();
+            }
+        }
+
+        function openSettings() {
+            document.getElementById('settingsModal').style.display = 'block';
+            document.getElementById('namesTextarea').value = names.join('\n');
+            document.getElementById('minDecibelInput').value = minDecibel;
+            document.getElementById('growthSpeedInput').value = growthSpeed;
+            document.getElementById('speedValue').textContent = growthSpeed;
+        }
+
+        // 滑块实时更新显示值
+        document.getElementById('growthSpeedInput').addEventListener('input', function() {
+            document.getElementById('speedValue').textContent = this.value;
+        });
+
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
+
+        function saveSettings() {
+            const textarea = document.getElementById('namesTextarea');
+            const newNames = textarea.value.split('\n').map(name => name.trim()).filter(name => name);
+            names = newNames;
+            localStorage.setItem('names', JSON.stringify(names));
+            minDecibel = parseInt(document.getElementById('minDecibelInput').value) || 30;
+            localStorage.setItem('minDecibel', minDecibel);
+            growthSpeed = parseFloat(document.getElementById('growthSpeedInput').value) || 0.02;
+            localStorage.setItem('growthSpeed', growthSpeed);
+            initTrees();
+            closeSettings();
+        }
+
+        // 初始化
+        initTrees();
+    </script>
+</body>
+</html>

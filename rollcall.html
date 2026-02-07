@@ -16,6 +16,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
         .container {
             background: rgba(255, 255, 255, 0.9);
@@ -24,6 +25,96 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             border: 5px solid #4FC3F7;
         }
+        .settings-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background: linear-gradient(45deg, #4FC3F7, #29B6F6);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .settings-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+        .modal h2 {
+            text-align: center;
+            color: #1976D2;
+            margin-bottom: 20px;
+        }
+        .modal textarea {
+            width: 80%;
+            padding: 10px;
+            border: 2px solid #4FC3F7;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Comic Sans MS', cursive;
+            resize: vertical;
+        }
+        .modal button {
+            padding: 10px 20px;
+            margin: 10px auto;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .save-btn {
+            background: linear-gradient(45deg, #4CAF50, #388E3C);
+            color: white;
+        }
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        .cancel-btn {
+            background: linear-gradient(45deg, #F44336, #D32F2F);
+            color: white;
+        }
+        .cancel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+        }
         h1 {
             text-align: center;
             color: #1976D2;
@@ -31,84 +122,20 @@
             font-size: 2.5em;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .input-section {
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        input[type="text"] {
-            padding: 12px 15px;
-            width: 250px;
-            border: 3px solid #4FC3F7;
-            border-radius: 20px;
-            font-size: 18px;
-            outline: none;
-            background: #E3F2FD;
-            color: #333;
-            font-family: 'Comic Sans MS', cursive;
-            transition: border-color 0.3s;
-        }
-        input[type="text"]:focus {
-            border-color: #1976D2;
-        }
-        button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 20px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-            font-family: 'Comic Sans MS', cursive;
-        }
-        .add-btn {
-            background: linear-gradient(45deg, #4FC3F7, #29B6F6);
-            color: white;
-        }
-        .add-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
-        }
         .start-btn {
             background: linear-gradient(45deg, #1976D2, #1565C0);
             color: white;
             display: block;
-            margin: 30px auto;
-            width: 200px;
+            margin: 40px auto;
+            width: 280px;
+            padding: 18px 30px;
+            font-size: 22px;
+            border-radius: 25px;
+            box-shadow: 0 8px 20px rgba(25, 118, 210, 0.4);
         }
         .start-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(25, 118, 210, 0.4);
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin-bottom: 30px;
-        }
-        li {
-            background: #E3F2FD;
-            padding: 10px 15px;
-            margin-bottom: 8px;
-            border-radius: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.3s;
-            border: 2px solid #B3E5FC;
-        }
-        li:hover {
-            background: #BBDEFB;
-        }
-        .delete-btn {
-            color: #D32F2F;
-            cursor: pointer;
-            font-weight: bold;
-            transition: color 0.3s;
-            font-size: 20px;
-        }
-        .delete-btn:hover {
-            color: #B71C1C;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(25, 118, 210, 0.6);
         }
         .result {
             margin-top: 30px;
@@ -142,63 +169,32 @@
     </style>
 </head>
 <body>
+    <button class="settings-btn" id="settingsBtn">⚙️ 设置</button>
     <div class="container">
         <h1>🎯 点名游戏</h1>
 
-        <div class="input-section">
-            <input type="text" id="nameInput" placeholder="输入小朋友的名字">
-            <button class="add-btn" onclick="addName()">添加名字</button>
-        </div>
-
-        <ul id="nameList"></ul>
-
-        <button class="start-btn" onclick="startRollCall()">开始点名</button>
+        <button class="start-btn" onclick="startRollCall()">🎲 开始点名</button>
 
         <div class="result" id="result"></div>
+    </div>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>人员名单管理</h2>
+            <textarea id="namesTextarea" rows="10" placeholder="每行输入一个名字"></textarea>
+            <button class="save-btn" onclick="saveNames()">保存</button>
+            <button class="cancel-btn" onclick="closeSettings()">取消</button>
+        </div>
     </div>
 
     <script>
         let names = JSON.parse(localStorage.getItem('names')) || [];
         let animationInterval;
 
-        function addName() {
-            const input = document.getElementById('nameInput');
-            const name = input.value.trim();
-            if (name) {
-                names.push(name);
-                localStorage.setItem('names', JSON.stringify(names));
-                updateList();
-                input.value = '';
-            }
-        }
-
-        function deleteName(index) {
-            names.splice(index, 1);
-            localStorage.setItem('names', JSON.stringify(names));
-            updateList();
-        }
-
-        function updateList() {
-            const list = document.getElementById('nameList');
-            list.innerHTML = '';
-            names.forEach((name, index) => {
-                const li = document.createElement('li');
-                li.textContent = name;
-                const deleteBtn = document.createElement('span');
-                deleteBtn.textContent = '❌';
-                deleteBtn.className = 'delete-btn';
-                deleteBtn.onclick = () => deleteName(index);
-                li.appendChild(deleteBtn);
-                list.appendChild(li);
-            });
-        }
-
-        // 初始化列表
-        updateList();
-
         function startRollCall() {
             if (names.length === 0) {
-                alert('请先添加小朋友的名字！');
+                alert('请先在设置中添加小朋友的名字！');
                 return;
             }
             const resultDiv = document.getElementById('result');
@@ -214,9 +210,39 @@
             setTimeout(() => {
                 clearInterval(animationInterval);
                 const randomIndex = Math.floor(Math.random() * names.length);
-                resultDiv.textContent = `🏆 选中的小朋友是：${names[randomIndex]}`;
+                resultDiv.textContent = `🏆 选中的是：${names[randomIndex]}`;
                 resultDiv.classList.remove('animating');
             }, 2500);
+        }
+
+        // 设置按钮事件
+        document.getElementById('settingsBtn').onclick = openSettings;
+
+        // 模态框关闭事件
+        document.getElementsByClassName('close')[0].onclick = closeSettings;
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('settingsModal')) {
+                closeSettings();
+            }
+        }
+
+        function openSettings() {
+            document.getElementById('settingsModal').style.display = 'block';
+            document.getElementById('namesTextarea').value = names.join('\n');
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
+
+        function saveNames() {
+            const textarea = document.getElementById('namesTextarea');
+            const newNames = textarea.value.split('\n').map(name => name.trim()).filter(name => name);
+            names = newNames;
+            localStorage.setItem('names', JSON.stringify(names));
+            closeSettings();
         }
     </script>
 </body>
