@@ -19,6 +19,11 @@
             "name": "时间炸弹",
             "file": "timeboom.html",
             "icon": "💣"
+        },
+        {
+            "name": "快题快背",
+            "file": "recite.html",
+            "icon": "📚"
         }
     ]
 }

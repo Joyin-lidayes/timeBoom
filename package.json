@@ -1,23 +1,48 @@
 {
-  "name": "jjclass",
+  "name": "gameclass",
+  "productName": "游戏课堂",
   "version": "1.0.0",
   "author": "joyinSoftware",
+  "description": "游戏工具",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "package": "electron-packager . 游戏课堂 --platform=win32 --arch=x64 --icon=logo.ico --app-copyright=Copyright © 2026 JoyinSoftware --app-version=1.0.0 --overwrite --out=output",
+    "clean": "electron-builder --clean"
   },
   "devDependencies": {
     "electron": "^29.0.0",
-    "electron-builder": "^26.7.0"
+    "electron-builder": "^26.7.0",
+    "electron-packager": "^17.1.2"
   },
   "build": {
-    "appId": "com.joyin.jjclass",
+    "appId": "com.joyin.gameclass",
+    "productName": "游戏课堂",
+    "copyright": "Copyright © 2026 JoyinSoftware",
     "win": {
       "target": "nsis",
+      "icon": "assets/image/logo.ico",
       "signAndEditExecutable": false
     },
-    "nsis": false,
+    "nsis": {
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "游戏课堂",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "license": "LICENSE.txt"
+    },
+    "files": [
+      "logo.ico",
+      "main.js",
+      "index.html",
+      "assets/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "output"
+    },
     "electronDist": "./electron-dist"
   }
 }

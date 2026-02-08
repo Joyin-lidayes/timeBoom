@@ -237,10 +237,10 @@
             <label>人员名单：</label><br>
             <textarea id="namesTextarea" rows="10" placeholder="每行输入一个名字"></textarea><br>
             <label>最低生长分贝值：</label><br>
-            <input type="number" id="minDecibelInput" placeholder="例如：30"><br>
+            <input type="number" id="minDecibelInput" placeholder="例如：50"><br>
             <label>生长速度：</label><br>
-            <input type="range" id="growthSpeedInput" min="0.00001" max="0.001" step="0.00001" value="0.02">
-            <span id="speedValue">0.02</span>
+            <input type="range" id="growthSpeedInput" min="0.00001" max="0.001" step="0.00001" value="0.0001">
+            <span id="speedValue">0.0001</span>
             <button class="save-btn" onclick="saveSettings()">保存</button>
             <button class="cancel-btn" onclick="closeSettings()">取消</button>
         </div>
@@ -248,8 +248,8 @@
 
     <script>
         let names = JSON.parse(localStorage.getItem('names')) || [];
-        let minDecibel = parseInt(localStorage.getItem('minDecibel')) || 30;
-        let growthSpeed = parseFloat(localStorage.getItem('growthSpeed')) || 0.02;
+        let minDecibel = parseInt(localStorage.getItem('minDecibel')) || 40;
+        let growthSpeed = parseFloat(localStorage.getItem('growthSpeed')) || 0.0001;
         let trees = [];
         let audioContext;
         let analyser;
@@ -409,9 +409,9 @@
             const newNames = textarea.value.split('\n').map(name => name.trim()).filter(name => name);
             names = newNames;
             localStorage.setItem('names', JSON.stringify(names));
-            minDecibel = parseInt(document.getElementById('minDecibelInput').value) || 30;
+            minDecibel = parseInt(document.getElementById('minDecibelInput').value) || 50;
             localStorage.setItem('minDecibel', minDecibel);
-            growthSpeed = parseFloat(document.getElementById('growthSpeedInput').value) || 0.02;
+            growthSpeed = parseFloat(document.getElementById('growthSpeedInput').value) || 0.0001;
             localStorage.setItem('growthSpeed', growthSpeed);
             initTrees();
             closeSettings();
